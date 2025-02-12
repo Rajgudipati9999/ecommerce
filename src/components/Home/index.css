@@ -1,0 +1,29 @@
+.home-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+.home-heading {
+    width: 500px;
+    color: royalblue;
+}
+.home-description {
+    width: 550px;
+    color: #000;
+    font-size: 16px;
+}
+.shop-now-button {
+    padding: 10px;
+    width: 150px;
+    color: gold;
+    background-color: royalblue;
+    border-width: 0;
+    border-radius: 3px;
+    box-shadow: goldenrod 2px 2px 2px 2px;
+    cursor: pointer;
+}
+.home-mobile-img {
+    height: 400px;
+    width: 400px;
+}
