@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Rajgudipati9999/ecommerce/static/css/main.b81d4701.css",
+    "main.js": "/Rajgudipati9999/ecommerce/static/js/main.2b4f4382.js",
+    "static/js/453.ce58f9bb.chunk.js": "/Rajgudipati9999/ecommerce/static/js/453.ce58f9bb.chunk.js",
+    "index.html": "/Rajgudipati9999/ecommerce/index.html",
+    "main.b81d4701.css.map": "/Rajgudipati9999/ecommerce/static/css/main.b81d4701.css.map",
+    "main.2b4f4382.js.map": "/Rajgudipati9999/ecommerce/static/js/main.2b4f4382.js.map",
+    "453.ce58f9bb.chunk.js.map": "/Rajgudipati9999/ecommerce/static/js/453.ce58f9bb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b81d4701.css",
+    "static/js/main.2b4f4382.js"
+  ]
+}
