@@ -1,49 +1,20 @@
-.nav-header {
-    height: 20vh;
-    width: 100vw;
+.menu-icon {
+  display: none;
 }
-.nav-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+
+@media (max-width: 700px) {
+  .menu-icon {
+    display: block;
+  }
 }
-.website-logo {
-    display: none;
+
+.tooltip {
+  background-color: royalblue;
+  color: #fff;
 }
-.logo-title {
-    color: royalblue;
-    margin-left: 5px;
-    box-shadow: #ddd 2px 2px 2px 2px;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.logout-mobile-btn {
-    display: none;
-}
-.nav-menu {
-    list-style-type:none;
-    width: 200px;
-    display: flex;
-    justify-content: space-around;
-}
-.nav-link {
-    text-decoration: none;
-    font-weight: 500;
-    color: royalblue;
-}
-.logout-desktop-btn {
-    background-color:royalblue;
-    color: #fff;
-    padding: 10px;
-    width: 120px;
-    border-width: 0;
-    border-radius: 5px;
-    margin-right: 5px;
-    cursor: pointer;
-    margin-left: 20px;
-}
-.cart-container {
-    display: flex;
-    align-items: center;
+
+.cart{
+  background-color: #eee;
+  padding: 5px;
+  border-radius: 10px;
 }

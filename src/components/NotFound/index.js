@@ -1,4 +1,5 @@
-import {NotFoundContainer , NotFoundImg } from './styledComponent'
+import React from "react";
+import { NotFoundContainer, NotFoundImg } from "./styledComponent";
 
 const NotFound = () => (
   <NotFoundContainer className="not-found-container">

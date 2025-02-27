@@ -1,51 +1,81 @@
-import {Link} from 'react-router-dom'
-// import {Navigate} from 'react-router-dom'
-import {useNavigate} from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import { LuShoppingCart } from "react-icons/lu";
+import { IoMenu } from "react-icons/io5";
+import {
+  NavHeader,
+  NavContent,
+  LogoTitle,
+  NavMenu,
+  CartContainer,
+  LogoutMobileBtn,
+  LogoutDesktopButton,
+  Cart,
+} from "./styledComponents";
 import './index.css'
 
 const Header = (props) => {
-  const navigate = useNavigate()
-  console.log(navigate) ;
+  const navigate = useNavigate();
   const onLogout = () => {
-    navigate('/login')
-  }
+    Cookies.remove("jwt_token");
+    navigate("/login");
+  };
   const onLogo = () => {
-    console.log('on logo is triggered')
-    navigate('/')
-  }
+    navigate("/");
+  };
   return (
-    <nav className="nav-header">
-      <div className="nav-content">
-        <img
-          className="website-logo"
-          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
-          alt="website logo"
-        />
-        <h3 className='logo-title' onClick={onLogo}>Nxt Trends</h3>
-        <ul className="nav-menu">
-          <Link to="/" className="nav-link">
-            <li>Home</li>
+    <NavHeader>
+      <NavContent>
+        <LogoTitle onClick={onLogo} title="Go To Home">
+          Trendzy
+        </LogoTitle>
+        {/* <IoMenu style={{fontSize : '40px' , color : 'royalblue'}} className='menu-icon'/> */}
+        <NavMenu>
+          <Link
+            to="/"
+            style={{
+              color: "royalblue",
+              textDecoration: "none",
+              fontWeight: "500",
+            }}
+          >
+            <li title="Go To Home">Home</li>
           </Link>
-          <Link to="/products" className="nav-link">
-            <li>Products</li>
+          <Link
+            to="/products"
+            style={{
+              color: "royalblue",
+              textDecoration: "none",
+              fontWeight: "500",
+            }}
+          >
+            <li title="Go To Products">Products</li>
           </Link>
-        </ul>
-        <div className='cart-container'>
-          <LuShoppingCart style={{fontSize:'30px'}}/>
-            <button type="button" className="logout-desktop-btn" onClick={onLogout}>
-              Logout
-            </button>
-        </div>
-        <button type="button" className="logout-mobile-btn">
-          <img
-            src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-log-out-img.png"
-            alt="logout icon"
-            className="logout-icon"
-          />
-        </button>
-      </div>
-    </nav>
-  )
-}
-export default (Header);
+        </NavMenu>
+        <CartContainer>
+          <Link to="/cart">
+            <Cart title="Go To Cart" className="cart">
+              <LuShoppingCart
+                style={{ fontSize: "30px", color: "royalblue" }}
+              />
+              <span style={{ color: "royalblue", fontWeight: "500" }}>0</span>
+            </Cart>
+          </Link>
+          <LogoutDesktopButton type="button" onClick={onLogout}>
+            Logout
+          </LogoutDesktopButton>
+          <LogoutMobileBtn type="button" onClick={onLogout}>
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-log-out-img.png"
+              alt="logout icon"
+              style={{ height: "30px", width: "30px" }}
+            />
+          </LogoutMobileBtn>
+        </CartContainer>
+      </NavContent>
+    </NavHeader>
+  );
+};
+export default Header;

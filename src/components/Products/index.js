@@ -1,27 +1,101 @@
-import { useEffect ,useState } from 'react'
-import Header from '../Header'
-import {ProductContainer ,ProductLogo} from './styledComponents'
+import React from "react";
+import { useContext, useEffect, useState } from "react";
+import ProductContext from "../../context/ProductContext";
+import Cookies from "js-cookie";
+import Header from "../Header";
+import ProductItem from "../ProductItem";
+import './index.css' 
+
+import {
+  ProductListContainer,
+  ProductTitle,
+  SearchInputContainer,
+  SearchInput,
+  LoaderComponent,
+  MenuContainer,
+  SelectElement,
+  OptionElement,
+  ProductTitleContainer,
+} from "./styledComponents";
+import { ThreeDots } from "react-loader-spinner";
+import { FaSearch } from "react-icons/fa";
 
 const Products = () => {
-  const [products , setProducts] = useState([])
+  const { getProducts } = useContext(ProductContext);
+  const { productObject } = useContext(ProductContext);
+
+  const fetchData = async () => {
+    const token = Cookies.get("jwt_token");
+    const options = {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await fetch("https://apis.ccbp.in/products", options);
+    const jsonData = await response.json();
+    getProducts(jsonData.products);
+  };
   useEffect(() => {
-    fetch('https://apis.ccbp.in/products')
-    .then((response) => {return response.jsonData()})
-    .then((jsonData) => {console.log(jsonData)})
-  }
-  ,[])
-  return (
-        <div>
-          <Header />
-          <ProductContainer>
-           <ProductLogo
-              src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-products-img.png" 
-             // src='https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRVu6QDcpE0Ti-X9B7lBRs4HWmStjt3RXp84vkeerxet7djvWnvTV2RHlpZDfvtDq49NJaAfM2HAJHMJIml15iNCb0etrhw386JFU8NMWqC2ilkVq2T6mbk'
-              alt="products"
-              loading='lazy'
-            /> 
-          </ProductContainer>
+    fetchData();
+  }, []);
+
+  const renderProducts = () => {
+    return (
+      <>
+      <ProductTitleContainer>
+        <div className="input-container">
+          <ProductTitle>All Products</ProductTitle>
+          <SearchInputContainer>
+            <SearchInput type="search" placeholder="Search Items" />
+            <FaSearch style={{ color: "royalblue" }} />
+          </SearchInputContainer>
+          <MenuContainer>
+            <span
+              style={{
+                color: "royalblue",
+                fontWeight: "bold",
+                marginRight: "10px",
+              }}
+            >
+              Sort By
+            </span>
+            <SelectElement>
+              <OptionElement>Price (High To Low)</OptionElement>
+              <OptionElement>Price (Low To High)</OptionElement>
+            </SelectElement>
+          </MenuContainer>
         </div>
-  )
-}
-export default Products
+        </ProductTitleContainer>
+        <ProductListContainer>
+          {productObject.map((eachItem) => (
+            <ProductItem key={eachItem.id} eachItem={eachItem} />
+          ))}
+        </ProductListContainer>
+      </>
+    );
+  };
+
+  const renderLoader = () => {
+    return (
+      <LoaderComponent>
+        <ThreeDots
+          height="80"
+          width="80"
+          radius="9"
+          color="royalblue"
+          ariaLabel="loading"
+        />
+      </LoaderComponent>
+    );
+  };
+
+  return (
+    <div>
+      <Header />
+      {!productObject ? renderLoader() : renderProducts()}
+    </div>
+  );
+};
+export default Products;

@@ -1,81 +1,66 @@
-import {useState} from 'react'
-import { useNavigate } from 'react-router-dom'
-import Cookies from 'js-cookie'
-// import { useCookie } from "@use-hook/use-cookie";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
-import 
-{ 
-  LoginFormContainer, 
-  LoginButton,LoginFormLogo,
+import {
+  LoginFormContainer,
+  LoginButton,
+  LoginFormLogo,
   UserNameContainer,
-  PasswordContainer ,
+  PasswordContainer,
   InputElement,
   Label,
-  FormContainer ,
-  ErrorMsg
-} 
- 
-from './styledComponnts'
+  FormContainer,
+  ErrorMsg,
+} from "./styledComponnts";
 
 const LoginForm = () => {
-  const [username,setUsername] = useState('')
-  const [password,setPassword] = useState('')
-  const [errorMsg , setErrorMsg] = useState('')
-  // const [token , setJwtToken] = useCookie('')
-  const [errorBgPwd , setErrorBgPwd] = useState('')
-  const [errorBgUser , setErrorBgUser] = useState('')
-  const [token , getToken] = useState()
-  const navigate = useNavigate()
-  console.log(errorBgUser) ;
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [errorBgPwd, setErrorBgPwd] = useState("");
+  const [errorBgUser, setErrorBgUser] = useState("");
+  const navigate = useNavigate();
   const onSubmitSuccess = (jwtToken) => {
-    Cookies.set('jwt_token' , jwtToken)
-    if (!jwtToken) {
-      return  navigate('/login')
-    }else {
-      return navigate('/')
-    }
-  }
+    Cookies.set("jwt_token", jwtToken, { expires: 60 });
+    navigate("/");
+  };
 
   const onSubmitFailure = (errorMsg) => {
-    setErrorMsg(`*${errorMsg}`) 
-  }
+    setErrorMsg(`*${errorMsg}`);
+  };
   const errorUserHandle = () => {
-    console.log('Event Is Triggered')
-    setErrorBgUser('red')
-  }
+    setErrorBgUser("red");
+  };
 
   const errorPasswordHandle = () => {
-    setErrorBgPwd('red')
-  }
+    setErrorBgPwd("red");
+  };
 
-  const submitForm = async event => {
-    event.preventDefault()
-    const userDetails = {username, password}
-    console.log(userDetails);
-    const url = 'https://apis.ccbp.in/login'
+  const submitForm = async (event) => {
+    event.preventDefault();
+    const userDetails = { username, password };
+    const url = "https://apis.ccbp.in/login";
     const options = {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(userDetails),
-    }
-    const response = await fetch(url, options)
-    const data = await response.json()
-    // console.log(data);
+    };
+    const response = await fetch(url, options);
+    const data = await response.json();
     if (response.ok === true) {
-      onSubmitSuccess(data.jwt_token)
+      onSubmitSuccess(data.jwt_token);
+    } else if (response.status === 500) {
+      setErrorMsg("Network Error");
+    } else {
+      onSubmitFailure(data.error_msg);
     }
-    else if (response.status === 500) {
-      setErrorMsg('Network Error')
-    }
-    else {
-      onSubmitFailure(data.error_msg)
-    }
-  }
-  const onChangeUsername = event => {
-    setUsername(event.target.value)
-  }
-  const onChangePassword = event => {
-    setPassword(event.target.value)
-  }
+  };
+  const onChangeUsername = (event) => {
+    setUsername(event.target.value);
+  };
+  const onChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
   const renderPasswordField = () => {
     return (
       <PasswordContainer>
@@ -84,17 +69,17 @@ const LoginForm = () => {
         </Label>
         <InputElement
           type="password"
-          placeholder='Enter Password'
+          placeholder="Enter Password"
           id="password"
           className="password-input-filed"
           value={password}
           onChange={onChangePassword}
           onBlur={errorPasswordHandle}
-          style={password.length > 0 ? {borderColor:'green'}: {borderColor :`${errorBgPwd}`}}
+          style={password.length > 0 ? null : { borderColor: `${errorBgPwd}` }}
         />
       </PasswordContainer>
-    )
-  }
+    );
+  };
   const renderUsernameField = () => {
     return (
       <UserNameContainer>
@@ -103,29 +88,27 @@ const LoginForm = () => {
         </Label>
         <InputElement
           type="text"
-          placeholder='Enter Username'
+          placeholder="Enter Username"
           id="username"
           className="username-input-filed"
           value={username}
           onChange={onChangeUsername}
           onBlur={errorUserHandle}
-          style={username.length > 0 ? {borderColor :'green'}: {borderColor :`${errorBgUser}`}}
+          style={username.length > 0 ? null : { borderColor: `${errorBgUser}` }}
         />
       </UserNameContainer>
-    )
-  }
-    return (
-      <LoginFormContainer>
-        <FormContainer className="form-container" onSubmit={submitForm}>
-          <LoginFormLogo>Nxt Trends</LoginFormLogo>
-            <div className="input-container">{renderUsernameField()}</div>
-            <div className="input-container">{renderPasswordField()}</div>
-          <LoginButton type="submit">
-            Login
-          </LoginButton>
-          <ErrorMsg>{`${errorMsg}`}</ErrorMsg>
-        </FormContainer>
-      </LoginFormContainer>
-    )
-  }
-export default LoginForm ;
+    );
+  };
+  return (
+    <LoginFormContainer>
+      <FormContainer className="form-container" onSubmit={submitForm}>
+        <LoginFormLogo>Trendzy</LoginFormLogo>
+        <div className="input-container">{renderUsernameField()}</div>
+        <div className="input-container">{renderPasswordField()}</div>
+        <LoginButton type="submit">Login</LoginButton>
+        <ErrorMsg>{`${errorMsg}`}</ErrorMsg>
+      </FormContainer>
+    </LoginFormContainer>
+  );
+};
+export default LoginForm;

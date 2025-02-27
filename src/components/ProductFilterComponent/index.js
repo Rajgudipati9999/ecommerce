@@ -1,11 +1,5 @@
-
 const ProductFilterComponent = () => {
+  return <div>full data</div>;
+};
 
-    return (
-        <div>
-            
-        </div>
-    )
-}
-
-export default ProductFilterComponent ; 
+export default ProductFilterComponent;
